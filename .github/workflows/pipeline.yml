@@ -35,3 +35,4 @@ jobs:
           heroku_email: "vpvipotin@gmail.com"
           healthcheck: "https://vipotin-pokedex-app.herokuapp.com/health"
           checkstring: "ok"
+          rollbackonhealthcheckfailed: true
