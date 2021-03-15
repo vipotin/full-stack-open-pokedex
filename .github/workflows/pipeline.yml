@@ -13,23 +13,30 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
+
       - name: npm install 
         run: npm install  
+
       - name: Lint
         run: npm run eslint
+
       - name: Build
         run: npm run build
+      
       - name: Test
         run: npm run test
+      
       - name: E2E tests
         uses: cypress-io/github-action@v2
         with:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
+      
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.33.0
         if: ${{ !contains(join(github.event.commits.*.message), '#skip') }}
@@ -37,6 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
           DRY_RUN: true
+      
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         if: ${{ !contains(join(github.event.commits.*.message), '#skip') }}
